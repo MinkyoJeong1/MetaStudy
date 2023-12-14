@@ -12,7 +12,7 @@ class User(Base):
     password = Column(String(255), nullable=False)
     email = Column(String(255), unique=True, nullable=False)
     phone_number = Column(String(255), unique=True, nullable=False)
-    status = Column(Boolean, nullable=False)
+    state = Column(Boolean, nullable=False)
 
 
 class Attendance(Base):
@@ -21,4 +21,5 @@ class Attendance(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(255), ForeignKey('user.username'), nullable=False)
     time = Column(DateTime, nullable=False)
+    state = Column(String(255), nullable=False)
     user = relationship("User")

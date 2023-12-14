@@ -57,9 +57,9 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(),
     }
 
 
-@router.get("/list", response_model=list[user_schema.UserStatus])
+@router.get("/list", response_model=list[user_schema.UserState])
 def question_list(db: Session = Depends(get_db)):
-    _user_list = user_crud.get_user_status(db)
+    _user_list = user_crud.get_user_state(db)
     return _user_list
 
 

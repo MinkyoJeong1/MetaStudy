@@ -11,7 +11,7 @@ def create_user(db: Session, user_create: UserCreate):
                    password=pwd_context.hash(user_create.password1),
                    email=user_create.email,
                    phone_number=user_create.phone_number,
-                   status=True)
+                   state=True)
     db.add(db_user)
     db.commit()
 
@@ -28,6 +28,6 @@ def get_user(db: Session, username: str):
     return db.query(User).filter(User.username == username).first()
 
 
-def get_user_status(db: Session):
+def get_user_state(db: Session):
     user_list = db.query(User).order_by(User.id).all()
     return user_list

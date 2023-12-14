@@ -30,10 +30,10 @@ class UserCreate(BaseModel):
         return v
     
 
-class UserStatus(BaseModel):
+class UserState(BaseModel):
     id: int
     username: str
-    status: bool
+    state: bool
 
 
 class Token(BaseModel):

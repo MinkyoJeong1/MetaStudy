@@ -4,13 +4,14 @@ import re
 
 
 class UserCreate(BaseModel):
-    username: str
+    user_id: str
+    user_name: str
     password1: str
     password2: str
     email: EmailStr
     phone_number: str
 
-    @field_validator('username', 'password1', 'password2', 'email')
+    @field_validator('user_id', 'user_name', 'password1', 'password2', 'email')
     def not_empty(cls, v):
         if not v or not v.strip():
             raise ValueError('빈 값은 허용되지 않습니다.')
@@ -31,12 +32,17 @@ class UserCreate(BaseModel):
     
 
 class UserState(BaseModel):
-    id: int
-    username: str
+    user_id: str
+    user_name: str
     state: bool
 
 
 class Token(BaseModel):
     access_token: str
     token_type: str
-    username: str
+    user_id: str
+
+
+class LoginFormData(BaseModel):
+    user_id: str
+    password: str

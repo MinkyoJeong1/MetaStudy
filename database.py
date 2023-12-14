@@ -21,7 +21,7 @@ Base.metadata.create_all(engine)
 
 session = SessionLocal()
 
-query = session.query(User, Attendance).join(Attendance, User.username == Attendance.username)
+query = session.query(User, Attendance).join(Attendance, User.user_id == Attendance.user_id)
 
 
 def get_db():

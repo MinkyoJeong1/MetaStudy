@@ -16,28 +16,28 @@ def get_all_attendance_list(db: Session):
     return attendance_list
 
 
-def get_user_attendance_list(db: Session, username: str):
-    return db.query(Attendance).filter(Attendance.username == username).order_by(Attendance.id).all()
+def get_user_attendance_list(db: Session, user_id: str):
+    return db.query(Attendance).filter(Attendance.user_id == user_id).order_by(Attendance.id).all()
 
 
 def attendance_check(db: Session, check_attendance: UserCreate, state: str):
-    db_attendance = Attendance(username=check_attendance.username,
+    db_attendance = Attendance(user_id=check_attendance.user_id,
                          time=datetime.now(),
                          state=state)
     db.add(db_attendance)
     db.commit()
 
 
-def get_existing_user(db: Session, user_name):
-    return db.query(User).filter(User.username == user_name).first()
+def get_existing_user(db: Session, user_id):
+    return db.query(User).filter(User.user_id == user_id).first()
 
 
-def get_attendance_count(db: Session, user_name: str, target_date: date):
+def get_attendance_count(db: Session, user_id: str, target_date: date):
     day_start = datetime.combine(target_date, datetime.min.time())
     day_end = datetime.combine(target_date, datetime.max.time())
 
     attendance_count = db.query(Attendance).filter(
-        Attendance.username == user_name,
+        Attendance.user_id == user_id,
         Attendance.time >= day_start,
         Attendance.time <= day_end
     ).count()

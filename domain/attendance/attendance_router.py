@@ -25,7 +25,7 @@ def question_list(db: Session = Depends(get_db),
 @router.get("/user_attendance/{username}", response_model=list[attendance_schema.Attendance])
 def get_user_attendance(db: Session = Depends(get_db),
                         current_user: User = Depends(get_current_user)):
-    user_attendance_list = attendance_crud.get_user_attendance_list(db, current_user.username)
+    user_attendance_list = attendance_crud.get_user_attendance_list(db, current_user.user_id)
     return user_attendance_list
 
 
@@ -38,11 +38,11 @@ def check_attendance(db: Session = Depends(get_db),
     if not check_present_time and not check_late_time:
         raise HTTPException(status_code=400, detail="현재 시간에는 출석을 할 수 없습니다.")
     
-    user_exists = attendance_crud.get_existing_user(db, current_user.username)
+    user_exists = attendance_crud.get_existing_user(db, current_user.user_id)
     if not user_exists:
         raise HTTPException(status_code=400, detail="사용자가 존재하지 않습니다.")
     
-    count = attendance_crud.get_attendance_count(db, current_user.username, date.today())
+    count = attendance_crud.get_attendance_count(db, current_user.user_id, date.today())
     if count != 0:
         raise HTTPException(status_code=400, detail="출석은 하루에 한번만 할 수 있습니다.")
     

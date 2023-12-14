@@ -7,27 +7,31 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def create_user(db: Session, user_create: UserCreate):
-    db_user = User(username=user_create.username,
+    db_user = User(user_id=user_create.user_id,
+                   user_name=user_create.user_name,
                    password=pwd_context.hash(user_create.password1),
                    email=user_create.email,
                    phone_number=user_create.phone_number,
-                   state=True)
+                   use=True,
+                   state=True,
+                   attendance_type=True)
     db.add(db_user)
     db.commit()
 
 
 def get_existing_user(db: Session, user_create: UserCreate):
     return db.query(User).filter(
-        (User.username == user_create.username) |
+        (User.user_id == user_create.user_id) |
+        (User.user_name == user_create.user_name) |
         (User.email == user_create.email) |
         (User.phone_number == user_create.phone_number)
     ).first()
     
     
-def get_user(db: Session, username: str):
-    return db.query(User).filter(User.username == username).first()
+def get_user(db: Session, user_id: str):
+    return db.query(User).filter(User.user_id == user_id).first()
 
 
 def get_user_state(db: Session):
-    user_list = db.query(User).order_by(User.id).all()
+    user_list = db.query(User).order_by(User.user_id).all()
     return user_list
